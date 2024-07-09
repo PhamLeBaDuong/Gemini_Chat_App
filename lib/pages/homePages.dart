@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),
-            label: "blabla",
+            label: "Account",
           ),
         ],
       ),
@@ -69,9 +69,9 @@ class _HomePageState extends State<HomePage> {
     try {
       //String question = chatMessage.text;
       List<Uint8List>? images;
-      if (chatMessage.medias?.isNotEmpty ?? false) {
-        images = [File(chatMessage.medias!.first.url).readAsBytesSync()];
-      }
+      // if (chatMessage.medias?.isNotEmpty ?? false) {
+      //   images = [File(chatMessage.medias!.first.url).readAsBytesSync()];
+      // }
       var response = await chat.sendMessage(Content.text(chatMessage.text));
       // gemini.streamGenerateContent(question, images: images).listen((event) {
       //   ChatMessage? lastMassage = messages.firstOrNull;
