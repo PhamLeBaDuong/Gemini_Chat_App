@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:namer_app/features/apps/splash_screen/splash_screen.dart';
+import 'package:namer_app/pages/login.dart';
 //import 'package:flutter_gemini/flutter_gemini.dart';
 // import 'package:google_generative_ai/google_generative_ai.dart';
 // import 'package:image_picker/image_picker.dart';
@@ -39,7 +41,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: SplashScreen(
+        child: LoginPage(),
+      ),
     );
   }
 }
