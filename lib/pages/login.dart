@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:namer_app/features/user_auth/data_implementation/firestore_service.dart';
 import 'package:namer_app/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:namer_app/global/common/toast.dart';
 import 'package:namer_app/pages/homePages.dart';
@@ -168,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
     });
 
     if (user != null) {
+      useremail = email;
       showToast(message: "User is successfully signed in");
       Navigator.pushAndRemoveUntil(
           context,

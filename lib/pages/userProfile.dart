@@ -15,8 +15,6 @@ class Userprofile extends StatefulWidget {
 }
 
 class _UserprofileState extends State<Userprofile> {
-  final FirestoreServicee firestoreServicee = FirestoreServicee();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,8 +23,7 @@ class _UserprofileState extends State<Userprofile> {
         children: [
           GestureDetector(
             onTap: () {
-              _createData(
-                  UserModel(username: "john", age: 21, adress: "India"));
+              _createData(UserModel(email: useremail, chatHistory: {}));
             },
             child: Container(
                 height: 45,
@@ -73,15 +70,14 @@ class _UserprofileState extends State<Userprofile> {
                                 trailing: GestureDetector(
                                   onTap: () {
                                     _updateData(UserModel(
-                                        id: user.id,
-                                        username: "johnn",
-                                        adress: "blabla",
-                                        age: 155));
+                                        email: user.email, chatHistory: {}));
                                   },
                                   child: Icon(Icons.update),
                                 ),
-                                title: Text(user.username!),
-                                subtitle: Text(user.adress!),
+                                //subtitle: Text(user.chatHistory![0][0].toString()),
+                                title: GestureDetector(
+                                    onTap: () {},
+                                    child: Text(user.chatHistory!.keys.first)),
                               );
                             }).toList()
                           : []),
@@ -132,9 +128,8 @@ class _UserprofileState extends State<Userprofile> {
     String id = userCollection.doc().id;
 
     final newUser = UserModel(
-      username: userModel.username,
-      age: userModel.age,
-      adress: userModel.adress,
+      email: userModel.email,
+      chatHistory: userModel.chatHistory,
       id: id,
     ).toJson();
 
@@ -145,10 +140,9 @@ class _UserprofileState extends State<Userprofile> {
     final userCollection = FirebaseFirestore.instance.collection("users");
 
     final newData = UserModel(
-      username: userModel.username,
+      email: userModel.email,
+      chatHistory: userModel.chatHistory,
       id: userModel.id,
-      adress: userModel.adress,
-      age: userModel.age,
     ).toJson();
 
     userCollection.doc(userModel.id).update(newData);

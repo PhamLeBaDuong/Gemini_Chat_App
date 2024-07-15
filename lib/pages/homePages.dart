@@ -14,7 +14,12 @@ import 'package:provider/provider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
 
+String currentID = "";
+String useremail = "";
+String title = "";
+Map<String, List<Map<String, DateTime>>> chatMessages = {};
 List<ChatMessage> messages = [];
+// List<Content> chatHistory = List<Content>.from(messages);
 ChatUser currentUser = ChatUser(id: "0", firstName: "User");
 
 ChatUser geminiUser = ChatUser(id: "1", firstName: "Gemini");
@@ -67,32 +72,4 @@ class NavigationController extends GetxController {
     Container(color: Colors.purple),
     const Userprofile()
   ];
-}
-
-class UserModel {
-  final String? username;
-  final String? adress;
-  final int? age;
-  final String? id;
-
-  UserModel({this.id, this.username, this.adress, this.age});
-
-  static UserModel fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return UserModel(
-      username: snapshot["username"],
-      adress: snapshot["adress"],
-      age: snapshot["age"],
-      id: snapshot["id"],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      "username": username,
-      "age": age,
-      "id": id,
-      "adress": adress,
-    };
-  }
 }
