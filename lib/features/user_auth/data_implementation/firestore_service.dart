@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,22 +6,52 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 
 class UserModel {
   final String? email;
-  final Map<String, List<Map<String, DateTime>>>? chatHistory;
+  // final Map<String, List<Map<String, DateTime>>>? chatHistory;
+  //final List<List<Map<String, DateTime>>>? chatHistory;
+  //final List<String>? listTitle;
   final String? id;
 
-  UserModel({this.email, this.chatHistory, this.id});
+  UserModel({this.email, this.id});
 
   static UserModel fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return UserModel(
-        email: snapshot["email"], chatHistory: snapshot["chatHistory"]);
+    return UserModel(email: snapshot["email"], id: snapshot["id"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
       "email": email,
-      "chatHistory": chatHistory,
       "id": id,
+    };
+  }
+}
+
+class Message {
+  final Timestamp? timestamp;
+  final String? message;
+
+  Message({this.message, this.timestamp});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'timestamp': timestamp,
+      'message': message,
+    };
+  }
+}
+
+class ChatRoom {
+  final String? title;
+  final String? chatID;
+  final Timestamp? timestamp;
+
+  ChatRoom({this.title, this.chatID, this.timestamp});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'chatID': chatID,
+      'timestamp': timestamp,
     };
   }
 }
@@ -42,7 +73,8 @@ void _createData(UserModel userModel) {
 
   final newUser = UserModel(
     email: userModel.email,
-    chatHistory: userModel.chatHistory,
+    // chatHistory: userModel.chatHistory,
+    // listTitle: userModel.listTitle,
   ).toJson();
 
   userCollection.doc(id).set(newUser);
@@ -53,10 +85,11 @@ void _updateData(UserModel userModel) {
 
   final newData = UserModel(
     email: userModel.email,
-    chatHistory: userModel.chatHistory,
+    // chatHistory: userModel.chatHistory,
+    // listTitle: userModel.listTitle,
   ).toJson();
 
-  userCollection.doc(userModel.email).update(newData);
+  userCollection.doc(userModel.id).update(newData);
 }
 
 void _deleteData(String id) {

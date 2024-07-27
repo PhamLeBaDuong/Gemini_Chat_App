@@ -23,7 +23,7 @@ class _UserprofileState extends State<Userprofile> {
         children: [
           GestureDetector(
             onTap: () {
-              _createData(UserModel(email: useremail, chatHistory: {}));
+              _createData(UserModel(email: useremail));
             },
             child: Container(
                 height: 45,
@@ -64,20 +64,18 @@ class _UserprofileState extends State<Userprofile> {
                               return ListTile(
                                 leading: GestureDetector(
                                     onTap: () {
-                                      _deleteData(user.id!);
+                                      _deleteData(currentID);
                                     },
                                     child: Icon(Icons.delete)),
                                 trailing: GestureDetector(
                                   onTap: () {
-                                    _updateData(UserModel(
-                                        email: user.email, chatHistory: {}));
+                                    _updateData(UserModel(email: user.email));
                                   },
                                   child: Icon(Icons.update),
                                 ),
                                 //subtitle: Text(user.chatHistory![0][0].toString()),
                                 title: GestureDetector(
-                                    onTap: () {},
-                                    child: Text(user.chatHistory!.keys.first)),
+                                    onTap: () {}, child: Text(title)),
                               );
                             }).toList()
                           : []),
@@ -129,7 +127,6 @@ class _UserprofileState extends State<Userprofile> {
 
     final newUser = UserModel(
       email: userModel.email,
-      chatHistory: userModel.chatHistory,
       id: id,
     ).toJson();
 
@@ -141,7 +138,6 @@ class _UserprofileState extends State<Userprofile> {
 
     final newData = UserModel(
       email: userModel.email,
-      chatHistory: userModel.chatHistory,
       id: userModel.id,
     ).toJson();
 
@@ -153,4 +149,15 @@ class _UserprofileState extends State<Userprofile> {
 
     userCollection.doc(id).delete();
   }
+
+  // void _deleteChatData(String title) {
+  //   final userCollection = FirebaseFirestore.instance.collection("users");
+
+  //   final newData = UserModel(
+  //     email: useremail,
+  //     chatHistory:
+  //   )
+
+  //   userCollection.doc(currentID).update();
+  // }
 }

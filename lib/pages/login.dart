@@ -171,6 +171,39 @@ class _LoginPageState extends State<LoginPage> {
 
     if (user != null) {
       useremail = email;
+      var snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .where('email', isEqualTo: useremail)
+          .limit(1)
+          .get();
+      //var temp = snapshot.docs.first.data()["chatHistory"];
+      if (!snapshot.docs.isEmpty) {
+        snapshot.docs.forEach((element) {
+          currentID = element.id;
+          // Map<String, List<Map<String, DateTime>>>.from(element
+          //     .data()['chatHistory'] as Map<String, List<Map<String, dynamic>>>);
+          // chatMessages = element.data()['chatHistory'];
+
+          // chatMessages = Map<String, List<Map<String, DateTime>>>.from(
+          //     element.data()['chatHistory']);
+
+          // chatMessages = element.data()['chatHistory'];
+          // listTitle = element.data()['listTitle'];
+        });
+      } else {
+        final userCollection = FirebaseFirestore.instance.collection("users");
+
+        String id = userCollection.doc().id;
+
+        currentID = id;
+
+        final newUser = UserModel(
+          email: useremail,
+          id: id,
+        ).toJson();
+
+        userCollection.doc(id).set(newUser);
+      }
       showToast(message: "User is successfully signed in");
       Navigator.pushAndRemoveUntil(
           context,

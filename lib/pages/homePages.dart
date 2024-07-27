@@ -5,19 +5,22 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:namer_app/pages/chatPage.dart';
+import 'package:namer_app/pages/historyChat.dart';
 import 'package:namer_app/pages/userProfile.dart';
 import 'package:provider/provider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
 
+//List<List<Map<String, DateTime>>> chatMessages = [];
 String currentID = "";
 String useremail = "";
 String title = "";
-Map<String, List<Map<String, DateTime>>> chatMessages = {};
+String chatID = "";
+//List<String> listTitle = [];
+//Map<String, List<Map<String, DateTime>>> chatMessages = {};
 List<ChatMessage> messages = [];
 // List<Content> chatHistory = List<Content>.from(messages);
 ChatUser currentUser = ChatUser(id: "0", firstName: "User");
@@ -67,9 +70,5 @@ class HomePage extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
 
-  final screens = [
-    const Chatpage(),
-    Container(color: Colors.purple),
-    const Userprofile()
-  ];
+  final screens = [const Chatpage(), const HistoryChat(), const Userprofile()];
 }

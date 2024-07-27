@@ -21,6 +21,8 @@ class Chatpage extends StatefulWidget {
 }
 
 class _ChatpageState extends State<Chatpage> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return DashChat(
@@ -37,23 +39,40 @@ class _ChatpageState extends State<Chatpage> {
     setState(() {
       messages = [chatMessage, ...messages];
     });
-    try {
-      if (messages.length <= 1) {
-        var timeTemp = DateTime.now();
+
+    final userCollection = FirebaseFirestore.instance.collection("users");
+    Message newMessage =
+        Message(timestamp: Timestamp.now(), message: chatMessage.text);
+    if (chatID == "") {
+      try {
         var temp = chat;
         String question = "give me the title for this question: ";
         question += chatMessage.text;
         var responsee = await temp.sendMessage(Content.text(question));
         title = responsee.text!;
-
-        chatMessages.addAll({
-          title: [
-            {chatMessage.text: timeTemp}
-          ]
-        });
-        _createData(UserModel(email: useremail, chatHistory: chatMessages));
+        String id = userCollection.doc().id;
+        chatID = id;
+        userCollection.doc(currentID).collection("chatrooms").doc(chatID).set(
+            ChatRoom(title: title, chatID: chatID, timestamp: Timestamp.now())
+                .toMap());
+        userCollection
+            .doc(currentID)
+            .collection("chatrooms")
+            .doc(chatID)
+            .collection("messages")
+            .add(newMessage.toMap());
+      } catch (e) {
+        print(e);
       }
-      //String question = chatMessage.text;
+    } else {
+      userCollection
+          .doc(currentID)
+          .collection("chatrooms")
+          .doc(chatID)
+          .collection("messages")
+          .add(newMessage.toMap());
+    }
+    try {
       List<Uint8List>? images;
       // if (chatMessage.medias?.isNotEmpty ?? false) {
       //   images = [File(chatMessage.medias!.first.url).readAsBytesSync()];
@@ -77,13 +96,19 @@ class _ChatpageState extends State<Chatpage> {
       //         "";
       ChatMessage message = ChatMessage(
           user: geminiUser, createdAt: DateTime.now(), text: response.text!);
-      chatMessages[title]!.add({response.text!: DateTime.now()});
+
+      Message responseMessage =
+          Message(timestamp: Timestamp.now(), message: response.text);
+      userCollection
+          .doc(currentID)
+          .collection("chatrooms")
+          .doc(chatID)
+          .collection("messages")
+          .add(responseMessage.toMap());
+
       setState(() {
         messages = [message, ...messages];
       });
-
-      _updateData(UserModel(
-          email: useremail, chatHistory: chatMessages, id: currentID));
       //   }
       // });
     } catch (e) {
@@ -120,15 +145,12 @@ class _ChatpageState extends State<Chatpage> {
 
     String id = userCollection.doc().id;
 
+    currentID = id;
+
     final newUser = UserModel(
       email: userModel.email,
-      chatHistory: userModel.chatHistory,
       id: id,
     ).toJson();
-
-    if (currentID == "") {
-      currentID = id;
-    }
 
     userCollection.doc(id).set(newUser);
   }
@@ -138,7 +160,6 @@ class _ChatpageState extends State<Chatpage> {
 
     final newData = UserModel(
       email: userModel.email,
-      chatHistory: userModel.chatHistory,
       id: userModel.id,
     ).toJson();
 
