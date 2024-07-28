@@ -176,19 +176,9 @@ class _LoginPageState extends State<LoginPage> {
           .where('email', isEqualTo: useremail)
           .limit(1)
           .get();
-      //var temp = snapshot.docs.first.data()["chatHistory"];
       if (!snapshot.docs.isEmpty) {
         snapshot.docs.forEach((element) {
-          currentID = element.id;
-          // Map<String, List<Map<String, DateTime>>>.from(element
-          //     .data()['chatHistory'] as Map<String, List<Map<String, dynamic>>>);
-          // chatMessages = element.data()['chatHistory'];
-
-          // chatMessages = Map<String, List<Map<String, DateTime>>>.from(
-          //     element.data()['chatHistory']);
-
-          // chatMessages = element.data()['chatHistory'];
-          // listTitle = element.data()['listTitle'];
+          currentID = element["id"];
         });
       } else {
         final userCollection = FirebaseFirestore.instance.collection("users");

@@ -29,13 +29,14 @@ ChatUser geminiUser = ChatUser(id: "1", firstName: "Gemini");
 final chat = GenerativeModel(
         model: "gemini-pro", apiKey: "AIzaSyAqa3TgDPWoGywDrm3poSg_pgtSRfCHMm0")
     .startChat(history: []);
+final controller = Get.put(NavigationController());
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NavigationController());
+    //final controller = Get.put(NavigationController());
 
     return Scaffold(
       bottomNavigationBar: Obx(

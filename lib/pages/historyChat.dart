@@ -3,7 +3,10 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:namer_app/components/chatTile.dart';
 import 'package:namer_app/features/user_auth/data_implementation/firestore_service.dart';
+import 'package:namer_app/pages/chatPage.dart';
 import 'package:namer_app/pages/homePages.dart';
 import 'package:namer_app/pages/login.dart';
 
@@ -15,72 +18,65 @@ class HistoryChat extends StatefulWidget {
 }
 
 class _UserprofileState extends State<HistoryChat> {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // ListView.builder(
-          //     itemCount: listTitle.length,
-          //     itemBuilder: (context, index) {
-          //       return ListTile(
-          //         title: Text(listTitle[index]),
-          //       );
-          //     })
-        ],
+      appBar: AppBar(
+        title: const Text("Chat History"),
       ),
+      body: _buildChatList(),
     );
   }
 
-  Stream<List<UserModel>> _readData() {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  Widget _buildChatList() {
+    return StreamBuilder(
+        stream: getChatsStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text("error");
+          }
 
-    return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
-        .map(
-          (e) => UserModel.fromSnapshot(e),
-        )
-        .toList());
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(
+              color: Colors.white,
+            );
+          }
+
+          return ListView(
+            children: snapshot.data!
+                .map<Widget>(
+                    (userData) => _buildChatListItem(userData, context))
+                .toList(),
+          );
+        });
   }
 
-  void _createData(UserModel userModel) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
-
-    String id = userCollection.doc().id;
-
-    final newUser = UserModel(
-      email: userModel.email,
-      id: id,
-    ).toJson();
-
-    userCollection.doc(id).set(newUser);
+  Widget _buildChatListItem(
+      Map<String, dynamic> userData, BuildContext context) {
+    return Chattile(
+        text: userData["title"],
+        onTap: () {
+          title = userData["title"];
+          chatID = userData["chatID"];
+          controller.selectedIndex.value = 0;
+        });
   }
 
-  void _updateData(UserModel userModel) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  Stream<List<Map<String, dynamic>>> getChatsStream() {
+    return _firestore
+        .collection("users")
+        .doc(currentID)
+        .collection("chatrooms")
+        .orderBy('timestamp', descending: true)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        final user = doc.data();
 
-    final newData = UserModel(
-      email: userModel.email,
-      id: userModel.id,
-    ).toJson();
-
-    userCollection.doc(userModel.id).update(newData);
+        return user;
+      }).toList();
+    });
   }
-
-  void _deleteData(String id) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
-
-    userCollection.doc(id).delete();
-  }
-
-  // void _deleteChatData(String title) {
-  //   final userCollection = FirebaseFirestore.instance.collection("users");
-
-  //   final newData = UserModel(
-  //     email: useremail,
-  //     chatHistory:
-  //   )
-
-  //   userCollection.doc(currentID).update();
-  // }
 }
