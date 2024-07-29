@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/features/user_auth/data_implementation/firestore_service.dart';
 import 'package:namer_app/features/user_auth/firebase_auth_implementation/firebase_auth_services.dart';
 import 'package:namer_app/global/common/toast.dart';
 import 'package:namer_app/pages/homePages.dart';
@@ -146,6 +148,19 @@ class _SignupPageState extends State<SignupPage> {
           context,
           MaterialPageRoute(builder: (context) => HomePage()),
           (route) => false);
+
+      final userCollection = FirebaseFirestore.instance.collection("users");
+
+      String id = userCollection.doc().id;
+
+      currentID = id;
+
+      final newUser = UserModel(
+        email: email,
+        id: id,
+      ).toJson();
+
+      userCollection.doc(id).set(newUser);
     } else {
       showToast(message: "Some error happened");
     }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
@@ -22,6 +23,10 @@ class Chatpage extends StatefulWidget {
 
 class _ChatpageState extends State<Chatpage> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final chat = GenerativeModel(
+          model: "gemini-pro",
+          apiKey: "AIzaSyAqa3TgDPWoGywDrm3poSg_pgtSRfCHMm0")
+      .startChat(history: geminiChatHistory);
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +57,15 @@ class _ChatpageState extends State<Chatpage> {
         title = responsee.text!;
         String id = userCollection.doc().id;
         chatID = id;
-        userCollection.doc(currentID).collection("chatrooms").doc(chatID).set(
-            ChatRoom(title: title, chatID: chatID, timestamp: Timestamp.now())
-                .toMap());
+        userCollection
+            .doc(currentID)
+            .collection("chatrooms")
+            .doc(chatID)
+            .set(ChatRoom(
+              title: title,
+              chatID: chatID,
+              timestamp: Timestamp.now(),
+            ).toMap());
         userCollection
             .doc(currentID)
             .collection("chatrooms")
@@ -105,6 +116,7 @@ class _ChatpageState extends State<Chatpage> {
           .doc(chatID)
           .collection("messages")
           .add(responseMessage.toMap());
+      geminiChatHistory = chat.history.toList();
 
       setState(() {
         messages = [message, ...messages];
