@@ -1,16 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:namer_app/pages/homePages.dart';
 
 class Chattile extends StatelessWidget {
   final String text;
   final void Function()? onTap;
   final void Function()? onTapDelete;
+  final void Function()? onTapChangeTitle;
+  final bool isCurrentChat;
+  final DateTime dateTime;
 
   const Chattile(
       {super.key,
       required this.text,
       required this.onTap,
-      required this.onTapDelete});
+      required this.onTapDelete,
+      required this.onTapChangeTitle,
+      required this.isCurrentChat,
+      required this.dateTime});
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +26,39 @@ class Chattile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 188, 187, 187),
+            color: isCurrentChat
+                ? Color.fromARGB(255, 122, 196, 234)
+                : Color.fromARGB(255, 221, 218, 218),
             borderRadius: BorderRadius.circular(12)),
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 25),
-        padding: EdgeInsets.all(15),
+        padding: EdgeInsets.all(13),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(text),
-            GestureDetector(onTap: onTapDelete, child: Icon(Icons.delete))
+            Text(
+              text,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text("${DateTime.now().difference(dateTime).inDays} days ago",
+                style: TextStyle(
+                    color: Color.fromARGB(255, 130, 129, 129),
+                    fontStyle: FontStyle.italic,
+                    fontSize: 12)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                GestureDetector(onTap: onTapDelete, child: Icon(Icons.delete)),
+                SizedBox(width: 25),
+                GestureDetector(
+                  onTap: onTapChangeTitle,
+                  child: Icon(Icons.edit),
+                )
+              ],
+            )
           ],
         ),
-        // child: ListTile(
-        //   leading: GestureDetector(
-        //     onTap: onTapDelete,
-        //     child: Icon(Icons.delete),
-        //   ),
-        //   title: GestureDetector(
-        //     onTap: onTap,
-        //     child: Text(text),
-        //   ),
-        // ),
       ),
     );
   }

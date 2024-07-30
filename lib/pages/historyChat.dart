@@ -24,6 +24,20 @@ class HistoryChat extends StatefulWidget {
 
 class _HistoryChatState extends State<HistoryChat> {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  late TextEditingController ccontroller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    ccontroller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    ccontroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +83,8 @@ class _HistoryChatState extends State<HistoryChat> {
   Widget _buildChatListItem(
       Map<String, dynamic> userData, BuildContext context) {
     return Chattile(
+        dateTime: (userData["timestamp"] as Timestamp).toDate(),
+        isCurrentChat: chatID == userData["chatID"],
         text: userData["title"],
         onTapDelete: () {
           _firestore
@@ -77,6 +93,17 @@ class _HistoryChatState extends State<HistoryChat> {
               .collection("chatrooms")
               .doc(userData["chatID"])
               .delete();
+        },
+        onTapChangeTitle: () async {
+          final newTitle = await changeTitle(context);
+
+          _firestore
+              .collection("users")
+              .doc(currentID)
+              .collection("chatrooms")
+              .doc(userData["chatID"])
+              .update({'title': newTitle});
+          ;
         },
         onTap: () async {
           if (chatID != userData["chatID"]) {
@@ -121,6 +148,26 @@ class _HistoryChatState extends State<HistoryChat> {
           controller.selectedIndex.value = 0;
         });
   }
+
+  Future<String?> changeTitle(BuildContext context) => showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text('New Chat Title'),
+            content: TextField(
+              autofocus: true,
+              decoration: InputDecoration(hintText: 'Enter new chat title'),
+              controller: ccontroller,
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    if (ccontroller.text != "") {
+                      Navigator.of(context).pop(ccontroller.text);
+                    }
+                  },
+                  child: Text("Change Title"))
+            ],
+          ));
 
   Stream<List<Map<String, dynamic>>> getChatsStream() {
     return _firestore

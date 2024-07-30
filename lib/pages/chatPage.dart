@@ -54,9 +54,11 @@ class _ChatpageState extends State<Chatpage> {
         String question = "give me the title for this question: ";
         question += chatMessage.text;
         var responsee = await temp.sendMessage(Content.text(question));
+
         title = responsee.text!;
         String id = userCollection.doc().id;
         chatID = id;
+
         userCollection
             .doc(currentID)
             .collection("chatrooms")
@@ -66,23 +68,16 @@ class _ChatpageState extends State<Chatpage> {
               chatID: chatID,
               timestamp: Timestamp.now(),
             ).toMap());
-        userCollection
-            .doc(currentID)
-            .collection("chatrooms")
-            .doc(chatID)
-            .collection("messages")
-            .add(newMessage.toMap());
       } catch (e) {
         print(e);
       }
-    } else {
-      userCollection
-          .doc(currentID)
-          .collection("chatrooms")
-          .doc(chatID)
-          .collection("messages")
-          .add(newMessage.toMap());
     }
+    userCollection
+        .doc(currentID)
+        .collection("chatrooms")
+        .doc(chatID)
+        .collection("messages")
+        .add(newMessage.toMap());
     try {
       List<Uint8List>? images;
       // if (chatMessage.medias?.isNotEmpty ?? false) {
