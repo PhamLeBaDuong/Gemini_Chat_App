@@ -1,9 +1,21 @@
+buildscript {
+  dependencies {
+    // Import the BoM for the Firebase platform
+    classpath 'com.google.firebase:firebase-bom:33.1.2'
+
+    // Add the dependencies for the App Check libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    classpath 'com.google.firebase:firebase-appcheck:18.0.0'
+ }
+}
 plugins {
     id "com.android.application"
     id "kotlin-android"
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
     id "com.google.gms.google-services"
+    // id "com.google.firebase.bom"
+    // id "com.google.firebase.appcheck-playintegrity"
 }
 
 def localProperties = new Properties()

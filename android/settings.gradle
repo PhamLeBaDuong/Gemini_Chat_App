@@ -15,7 +15,16 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+buildscript {
+  dependencies {
+    // Import the BoM for the Firebase platform
+    classpath 'com.google.firebase:firebase-bom:33.1.2'
 
+    // Add the dependencies for the App Check libraries
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    classpath 'com.google.firebase:firebase-appcheck:18.0.0'
+ }
+}
 plugins {
     id "dev.flutter.flutter-plugin-loader" version "1.0.0"
     id "com.android.application" version "7.3.0" apply false

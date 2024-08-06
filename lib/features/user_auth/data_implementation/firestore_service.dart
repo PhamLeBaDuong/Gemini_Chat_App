@@ -10,18 +10,21 @@ class UserModel {
   //final List<List<Map<String, DateTime>>>? chatHistory;
   //final List<String>? listTitle;
   final String? id;
+  final String? name;
 
-  UserModel({this.email, this.id});
+  UserModel({required this.email, required this.id, required this.name});
 
   static UserModel fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    return UserModel(email: snapshot["email"], id: snapshot["id"]);
+    return UserModel(
+        email: snapshot["email"], id: snapshot["id"], name: snapshot["name"]);
   }
 
   Map<String, dynamic> toJson() {
     return {
       "email": email,
       "id": id,
+      "name": name,
     };
   }
 }
@@ -56,44 +59,44 @@ class ChatRoom {
   }
 }
 
-Stream<List<UserModel>> _readData() {
-  final userCollection = FirebaseFirestore.instance.collection("users");
+// Stream<List<UserModel>> _readData() {
+//   final userCollection = FirebaseFirestore.instance.collection("users");
 
-  return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
-      .map(
-        (e) => UserModel.fromSnapshot(e),
-      )
-      .toList());
-}
+//   return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
+//       .map(
+//         (e) => UserModel.fromSnapshot(e),
+//       )
+//       .toList());
+// }
 
-void _createData(UserModel userModel) {
-  final userCollection = FirebaseFirestore.instance.collection("users");
+// void _createData(UserModel userModel) {
+//   final userCollection = FirebaseFirestore.instance.collection("users");
 
-  String id = userCollection.doc().id;
+//   String id = userCollection.doc().id;
 
-  final newUser = UserModel(
-    email: userModel.email,
-    // chatHistory: userModel.chatHistory,
-    // listTitle: userModel.listTitle,
-  ).toJson();
+//   final newUser = UserModel(
+//     email: userModel.email,
+//     // chatHistory: userModel.chatHistory,
+//     // listTitle: userModel.listTitle,
+//   ).toJson();
 
-  userCollection.doc(id).set(newUser);
-}
+//   userCollection.doc(id).set(newUser);
+// }
 
-void _updateData(UserModel userModel) {
-  final userCollection = FirebaseFirestore.instance.collection("users");
+// void _updateData(UserModel userModel) {
+//   final userCollection = FirebaseFirestore.instance.collection("users");
 
-  final newData = UserModel(
-    email: userModel.email,
-    // chatHistory: userModel.chatHistory,
-    // listTitle: userModel.listTitle,
-  ).toJson();
+//   final newData = UserModel(
+//     email: userModel.email,
+//     // chatHistory: userModel.chatHistory,
+//     // listTitle: userModel.listTitle,
+//   ).toJson();
 
-  userCollection.doc(userModel.id).update(newData);
-}
+//   userCollection.doc(userModel.id).update(newData);
+// }
 
-void _deleteData(String id) {
-  final userCollection = FirebaseFirestore.instance.collection("users");
+// void _deleteData(String id) {
+//   final userCollection = FirebaseFirestore.instance.collection("users");
 
-  userCollection.doc(id).delete();
-}
+//   userCollection.doc(id).delete();
+// }

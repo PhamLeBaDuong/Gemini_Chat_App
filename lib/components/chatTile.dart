@@ -49,11 +49,22 @@ class Chattile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                GestureDetector(onTap: onTapDelete, child: Icon(Icons.delete)),
-                SizedBox(width: 25),
-                GestureDetector(
-                  onTap: onTapChangeTitle,
-                  child: Icon(Icons.edit),
+                IconButton(
+                  onPressed: onTapDelete,
+                  icon: Icon(Icons.delete),
+                  color: Colors.black,
+                ),
+                //SizedBox(width: 25),
+                IconButton(
+                  onPressed: onTapChangeTitle,
+                  icon: Icon(Icons.edit),
+                  color: Colors.black,
+                ),
+                //SizedBox(width: 25),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.download),
+                  color: Colors.black,
                 )
               ],
             )

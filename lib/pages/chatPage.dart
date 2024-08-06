@@ -22,7 +22,6 @@ class Chatpage extends StatefulWidget {
 }
 
 class _ChatpageState extends State<Chatpage> {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final chat = GenerativeModel(
           model: "gemini-pro",
           apiKey: "AIzaSyAqa3TgDPWoGywDrm3poSg_pgtSRfCHMm0")
@@ -30,14 +29,25 @@ class _ChatpageState extends State<Chatpage> {
 
   @override
   Widget build(BuildContext context) {
-    return DashChat(
-        inputOptions: InputOptions(trailing: [
-          IconButton(
-              onPressed: _sendMediaMessage, icon: const Icon(Icons.image)),
-        ]),
-        messages: messages,
-        currentUser: currentUser,
-        onSend: _sendMessage);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 30, 30, 30),
+        title: Text(
+          title == "" ? "New Chat" : title,
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: DashChat(
+          messageOptions:
+              MessageOptions(currentUserContainerColor: Colors.grey[800]),
+          inputOptions: InputOptions(trailing: [
+            IconButton(
+                onPressed: _sendMediaMessage, icon: const Icon(Icons.image)),
+          ]),
+          messages: messages,
+          currentUser: currentUser,
+          onSend: _sendMessage),
+    );
   }
 
   void _sendMessage(ChatMessage chatMessage) async {
@@ -137,45 +147,45 @@ class _ChatpageState extends State<Chatpage> {
     }
   }
 
-  Stream<List<UserModel>> _readData() {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  // Stream<List<UserModel>> _readData() {
+  //   final userCollection = FirebaseFirestore.instance.collection("users");
 
-    return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
-        .map(
-          (e) => UserModel.fromSnapshot(e),
-        )
-        .toList());
-  }
+  //   return userCollection.snapshots().map((qureySnapshot) => qureySnapshot.docs
+  //       .map(
+  //         (e) => UserModel.fromSnapshot(e),
+  //       )
+  //       .toList());
+  // }
 
-  void _createData(UserModel userModel) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  // void _createData(UserModel userModel) {
+  //   final userCollection = FirebaseFirestore.instance.collection("users");
 
-    String id = userCollection.doc().id;
+  //   String id = userCollection.doc().id;
 
-    currentID = id;
+  //   currentID = id;
 
-    final newUser = UserModel(
-      email: userModel.email,
-      id: id,
-    ).toJson();
+  //   final newUser = UserModel(
+  //     email: userModel.email,
+  //     id: id,
+  //   ).toJson();
 
-    userCollection.doc(id).set(newUser);
-  }
+  //   userCollection.doc(id).set(newUser);
+  // }
 
-  void _updateData(UserModel userModel) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  // void _updateData(UserModel userModel) {
+  //   final userCollection = FirebaseFirestore.instance.collection("users");
 
-    final newData = UserModel(
-      email: userModel.email,
-      id: userModel.id,
-    ).toJson();
+  //   final newData = UserModel(
+  //     email: userModel.email,
+  //     id: userModel.id,
+  //   ).toJson();
 
-    userCollection.doc(userModel.id).update(newData);
-  }
+  //   userCollection.doc(userModel.id).update(newData);
+  // }
 
-  void _deleteData(String id) {
-    final userCollection = FirebaseFirestore.instance.collection("users");
+  // void _deleteData(String id) {
+  //   final userCollection = FirebaseFirestore.instance.collection("users");
 
-    userCollection.doc(id).delete();
-  }
+  //   userCollection.doc(id).delete();
+  // }
 }

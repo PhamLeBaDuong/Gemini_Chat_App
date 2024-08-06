@@ -43,18 +43,33 @@ class _HistoryChatState extends State<HistoryChat> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Chat History"),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 17),
+              child: IconButton(
+                  onPressed: () {
+                    title = "";
+                    chatID = "";
+                    geminiChatHistory = [];
+                    messages = [];
+                    controller.selectedIndex.value = 0;
+                  },
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  )),
+            )
+          ],
+          title: const Text(
+            "Chat History",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Color.fromARGB(255, 30, 30, 30),
         ),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              title = "";
-              chatID = "";
-              geminiChatHistory = [];
-              messages = [];
-              controller.selectedIndex.value = 0;
-            }),
-        body: _buildChatList());
+        body: Padding(
+          padding: EdgeInsets.only(top: 15.0),
+          child: _buildChatList(),
+        ));
   }
 
   Widget _buildChatList() {

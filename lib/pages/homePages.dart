@@ -15,6 +15,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:get/get.dart';
 
 String currentID = "";
+String userName = "";
 String useremail = "";
 String title = "";
 String chatID = "";

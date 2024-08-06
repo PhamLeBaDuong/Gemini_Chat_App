@@ -179,21 +179,24 @@ class _LoginPageState extends State<LoginPage> {
       if (!snapshot.docs.isEmpty) {
         snapshot.docs.forEach((element) {
           currentID = element["id"];
+          userName = element["name"];
         });
-      } else {
-        final userCollection = FirebaseFirestore.instance.collection("users");
-
-        String id = userCollection.doc().id;
-
-        currentID = id;
-
-        final newUser = UserModel(
-          email: useremail,
-          id: id,
-        ).toJson();
-
-        userCollection.doc(id).set(newUser);
       }
+      // } else {
+      //   final userCollection = FirebaseFirestore.instance.collection("users");
+
+      //   String id = userCollection.doc().id;
+
+      //   currentID = id;
+
+      //   final newUser = UserModel(
+      //     name: ,
+      //     email: useremail,
+      //     id: id,
+      //   ).toJson();
+
+      //   userCollection.doc(id).set(newUser);
+      // }
       showToast(message: "User is successfully signed in");
       Navigator.pushAndRemoveUntil(
           context,

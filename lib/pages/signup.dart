@@ -154,11 +154,9 @@ class _SignupPageState extends State<SignupPage> {
       String id = userCollection.doc().id;
 
       currentID = id;
+      userName = username;
 
-      final newUser = UserModel(
-        email: email,
-        id: id,
-      ).toJson();
+      final newUser = UserModel(email: email, id: id, name: username).toJson();
 
       userCollection.doc(id).set(newUser);
     } else {
