@@ -3,8 +3,12 @@ import 'dart:ffi';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:namer_app/components/menu_item.dart';
+import 'package:namer_app/components/menu_items.dart';
+import 'package:namer_app/components/settingTile.dart';
 import 'package:namer_app/components/text_box.dart';
 import 'package:namer_app/features/user_auth/data_implementation/firestore_service.dart';
+import 'package:namer_app/global/common/toast.dart';
 import 'package:namer_app/pages/homePages.dart';
 import 'package:namer_app/pages/login.dart';
 
@@ -52,7 +56,7 @@ class _UserprofileState extends State<Userprofile> {
                     ))
               ],
             ));
-    if (newValue.trim().length > 0) {
+    if (newValue.trim().isNotEmpty) {
       await FirebaseFirestore.instance
           .collection("users")
           .doc(currentID)
@@ -61,9 +65,67 @@ class _UserprofileState extends State<Userprofile> {
     }
   }
 
+  Future<void> deleteChatMemory() async {
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: Colors.grey[900],
+              title: Text(
+                "Comfirm deleting entire chat history?",
+                style: TextStyle(color: Colors.white),
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                TextButton(
+                    onPressed: () async {
+                      var temp = FirebaseFirestore.instance
+                          .collection("users")
+                          .doc(currentID)
+                          .collection("chatrooms");
+                      var tempp = await temp.get();
+                      for (var doc in tempp.docs) {
+                        await doc.reference.delete();
+                      }
+                      messages = [];
+                      title = "";
+                      chatID = "";
+                      geminiChatHistory = [];
+                      Navigator.of(context).pop(context);
+                    },
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(color: Colors.white),
+                    ))
+              ],
+            ));
+  }
+
   Widget build(BuildContext context) {
+    PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem(
+        value: item,
+        child: Row(
+          children: [
+            Icon(item.icon),
+            SizedBox(
+              width: 10,
+            ),
+            Text(item.text),
+          ],
+        ));
     return Scaffold(
         appBar: AppBar(
+          actions: [
+            PopupMenuButton<MenuItem>(
+                iconColor: Colors.white,
+                onSelected: (item) => onSelected(context, item),
+                itemBuilder: (context) =>
+                    [...MenuItems.items.map(buildItem).toList()])
+          ],
           title: Text(
             "Profile Page",
             style: TextStyle(color: Colors.white),
@@ -110,15 +172,26 @@ class _UserprofileState extends State<Userprofile> {
                       text: userData["name"],
                       sectionName: "username"),
                   SizedBox(
-                    height: 50,
+                    height: 25,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      "Settings",
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 130, 129, 129)),
+                  ExpansionTile(
+                    title: Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        "Settings",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 130, 129, 129),
+                            fontSize: 15),
+                      ),
                     ),
+                    children: [
+                      Settingtile(
+                        tileName: "Memory",
+                        onPressed: deleteChatMemory,
+                        buttonName: "Clear Gemini's memory",
+                        isVital: true,
+                      )
+                    ],
                   ),
                 ],
               );
@@ -130,5 +203,16 @@ class _UserprofileState extends State<Userprofile> {
             return const CircularProgressIndicator();
           },
         ));
+  }
+
+  void onSelected(BuildContext context, MenuItem item) {
+    switch (item) {
+      case MenuItems.itemSignOut:
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginPage()),
+            (route) => false);
+        showToast(message: "User is signed out");
+        break;
+    }
   }
 }

@@ -26,11 +26,64 @@ class _ChatpageState extends State<Chatpage> {
           model: "gemini-pro",
           apiKey: "AIzaSyAqa3TgDPWoGywDrm3poSg_pgtSRfCHMm0")
       .startChat(history: geminiChatHistory);
+  Future<void> editChatTitle() async {
+    String newValue = "";
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              backgroundColor: Colors.grey[900],
+              title: Text(
+                "Edit Title",
+                style: TextStyle(color: Colors.white),
+              ),
+              content: TextField(
+                autofocus: true,
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                    hintText: "Enter new title",
+                    hintStyle: TextStyle(color: Colors.grey)),
+                onChanged: (value) {
+                  newValue = value;
+                },
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.white),
+                    )),
+                TextButton(
+                    onPressed: () => Navigator.of(context).pop(newValue),
+                    child: Text(
+                      "Save",
+                      style: TextStyle(color: Colors.white),
+                    ))
+              ],
+            ));
+    if (newValue.trim().isNotEmpty) {
+      title = newValue;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentID)
+          .collection("chatrooms")
+          .doc(chatID)
+          .update({"title": newValue});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: editChatTitle,
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ))
+        ],
         backgroundColor: Color.fromARGB(255, 30, 30, 30),
         title: Text(
           title == "" ? "New Chat" : title,

@@ -101,18 +101,24 @@ class _HistoryChatState extends State<HistoryChat> {
         dateTime: (userData["timestamp"] as Timestamp).toDate(),
         isCurrentChat: chatID == userData["chatID"],
         text: userData["title"],
-        onTapDelete: () {
-          _firestore
+        onTapDelete: () async {
+          await _firestore
               .collection("users")
               .doc(currentID)
               .collection("chatrooms")
               .doc(userData["chatID"])
               .delete();
+          if (chatID == userData["chatID"]) {
+            messages = [];
+            geminiChatHistory = [];
+            title = "";
+            chatID = "";
+          }
         },
         onTapChangeTitle: () async {
           final newTitle = await changeTitle(context);
 
-          _firestore
+          await _firestore
               .collection("users")
               .doc(currentID)
               .collection("chatrooms")
