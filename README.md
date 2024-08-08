@@ -56,6 +56,14 @@ I will continue to develop more features. This is my first serious project so I 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Contact
+
+Duong Pham - [@phamleba](https://www.instagram.com/phamleba/) - duongpham_2027@depauw.edu
+
+Project Link: [https://github.com/PhamLeBaDuong/Gemini_Chat_App](https://github.com/PhamLeBaDuong/Gemini_Chat_App)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 [contributors-shield]: https://img.shields.io/github/contributors/PhamLeBaDuong/Gemini_Chat_App.svg?style=for-the-badge
 [contributors-url]: https://github.com/PhamLeBaDuong/Gemini_Chat_App/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/PhamLeBaDuong/Gemini_Chat_App.svg?style=for-the-badge
