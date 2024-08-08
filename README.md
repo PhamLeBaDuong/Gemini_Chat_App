@@ -1,6 +1,23 @@
-# flutter_application_1
+<div align="center">
+  <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App">
+    <img src="images/geminilogo" alt="Logo" width="110" height="75">
+  </a>
 
-A new Flutter project.
+  <h3 align="center">Gemini Chat App</h3>
+
+  <p align="center">
+    An awesome README template to jumpstart your projects!
+    <br />
+    <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App"><strong>Explore the Project »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App">View Project</a>
+    ·
+    <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    ·
+    <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+  </p>
+</div>
 
 ## Getting Started
 
