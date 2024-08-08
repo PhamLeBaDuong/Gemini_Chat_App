@@ -34,16 +34,17 @@
 [![Product Name Screen Shot3][product-screenshot3]]
 [![Product Name Screen Shot4][product-screenshot4]]
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+We are familiar with AI Chat Webpages like chat GPT or Claude, and I am here to display an AI chat app with Flutter and Gemini API. I know that some chat models have been on mobile applications for a while so this is simply my thought of how the AI chat app should be.
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
+Some features of the app:
+* Login and Signup page.
+* Chat to Gemini through Gemini API from Google AI Studio.
+* Save all chat sessions into the Firebase database with a generated title.
+* Delete each or all chat sessions.
+* Fetch and nicely display each chat session with interactions such as delete, edit title, and download.
+* ...
 
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
+I will continue to develop more features. This is my first serious project so I hope that everyone can help me expand the app. Thank you so much to the people who see my efforts and especially to the people who contribute to this project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
