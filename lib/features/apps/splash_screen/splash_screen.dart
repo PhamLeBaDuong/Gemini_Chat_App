@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Center(
         child: Text(
-          "Welcome to your AI bot",
+          "Welcome to Gemini Chat App",
           style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
         ),
       ),
