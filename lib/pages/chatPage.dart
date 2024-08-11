@@ -62,13 +62,16 @@ class _ChatpageState extends State<Chatpage> {
               ],
             ));
     if (newValue.trim().isNotEmpty) {
-      title = newValue;
+      //title = newValue;
       await FirebaseFirestore.instance
           .collection("users")
           .doc(currentID)
           .collection("chatrooms")
           .doc(chatID)
           .update({"title": newValue});
+      setState(() {
+        title = newValue;
+      });
     }
   }
 
