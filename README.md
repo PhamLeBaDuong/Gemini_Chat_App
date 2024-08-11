@@ -1,10 +1,13 @@
 <a id="readme-top"></a>
 
+<div align="center">
+  
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+</div>
 
 <div align="center">
   <a href="https://github.com/PhamLeBaDuong/Gemini_Chat_App">
@@ -29,10 +32,6 @@
 
 ## About The Project
 
-[![Product Name Screen Shot1][product-screenshot1]]
-[![Product Name Screen Shot2][product-screenshot2]]
-[![Product Name Screen Shot3][product-screenshot3]]
-[![Product Name Screen Shot4][product-screenshot4]]
 
 We are familiar with AI Chat Webpages like chat GPT or Claude, and I am here to display an AI chat app with Flutter and Gemini API. I know that some chat models have been on mobile applications for a while so this is simply my thought of how the AI chat app should be.
 
@@ -43,7 +42,14 @@ Some features of the app:
 * Delete each or all chat sessions.
 * Fetch and nicely display each chat session with interactions such as delete, edit title, and download.
 * ...
-
+<div align="center">
+  
+![Product Name Screen Shot1][product-screenshot1]
+![Product Name Screen Shot2][product-screenshot2]
+  
+![Product Name Screen Shot3][product-screenshot3]
+![Product Name Screen Shot4][product-screenshot4]
+</div>
 I will continue to develop more features. This is my first serious project so I hope that everyone can help me expand the app. Thank you so much to the people who see my efforts and especially to the people who contribute to this project.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -52,6 +58,14 @@ I will continue to develop more features. This is my first serious project so I 
 
 * [![Firebase][Firebase.com]][Firebase-url]
 * [![Flutter][Flutter.dev]][Flutter-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Contact
+
+Duong Pham - [@phamleba](https://www.instagram.com/phamleba/) - duongpham_2027@depauw.edu
+
+Project Link: [https://github.com/PhamLeBaDuong/Gemini_Chat_App](https://github.com/PhamLeBaDuong/Gemini_Chat_App)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
